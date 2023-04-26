@@ -83,10 +83,10 @@
                     <a href="#!" class="text-white">About Me</a>
                     </p>
                     <p>
-                    <a href="#!" class="text-white">Become an Affiliate</a>
+                    <a href="index.php?page=kris" class="text-white">Kritik & Saran</a>
                     </p>
                     <p>
-                    <a href="#!" class="text-white">Shipping Rates</a>
+                    <a href="admin/fph-admin.php" class="text-white">Admin</a>
                     </p>
                     <p>
                     <a href="#!" class="text-white">Help</a>

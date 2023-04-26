@@ -20,6 +20,10 @@ if(isset($_GET['page'])) {
         case 'about' :
             include 'pages/about.html';
             break;
+        case 'kris' :
+            include 'pages/kritik&saran.php';
+            break;
+        
 
         // Bagian Video Project
         case 'sejama' :
