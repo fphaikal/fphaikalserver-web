@@ -48,7 +48,26 @@
                     Tempat untuk menaruh hasil dari pekerjaan Fahreza Pasha Haikal mulai dari video, photo,
                     document dan lain-lain. 
                 </p>
-                <div id="website-counter" class="badge text-bg-light"></div>
+                
+                <?php
+                $filename = 'list_pengunjung.txt';	//mendefinisikan nama file yang di gunakan untuk menyimpan data jumlah pengunjung
+                
+                function lihat(){		//function lihat
+                    global $filename;	//set variabel $filename yang bersifat global
+                
+                    if(file_exists($filename)){		//jika file list_pengunjung.txt ada
+                        $value = file_get_contents($filename);	//set nilai di notepad
+                    }else{		//jika file list_pengunjung.txt tidak ada maka akan membuat file list_pengunjung.txt
+                        $value = 0;		//kemudian set value menjadi 0
+                    }
+                
+                    file_put_contents($filename, ++$value);		//menuliskan kedalam file list_pengunjung.txt value di tambah 1
+                }
+                
+                lihat();	//menjalankan function lihat
+                echo 'Total Pengnjung: '.file_get_contents($filename);	//menampilkan jumlah pengunjung di website
+                ?>
+                
                 </div>
                 <!-- Grid column -->
 
@@ -126,25 +145,3 @@
 </footer>
 <!-- Footer -->
 
-<script>
-  var counterContainer = document.querySelector("#website-counter");
-  var resetButton = document.querySelector("#reset");
-  var visitCount = localStorage.getItem("page_view");
- 
-  // Periksa apakah entri page_view ada
-  if (visitCount) {
-    visitCount = Number(visitCount) + 1;
-    localStorage.setItem("page_view", visitCount);
-  } else {
-    visitCount = 1;
-    localStorage.setItem("page_view", 1);
-  }
-  counterContainer.innerHTML = visitCount;
- 
-  // Menambahkan jumlah view ketika onClick
-  resetButton.addEventListener("click", () => {
-    visitCount = 1;
-    localStorage.setItem("page_view", 1);
-    counterContainer.innerHTML = visitCount;
-  });
-</script>

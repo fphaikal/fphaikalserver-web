@@ -1,66 +1,43 @@
-<?php 
-include '../koneksi.php';
+<?php
 session_start();
-
-//atur variabel
-$err        = "";
-$username   = "";
-$ingataku   = "";
-
-error_reporting(0);
-if(isset($_COOKIE['cookie_username'])){
-    $cookie_username = $_COOKIE['cookie_username'];
-    $cookie_password = $_COOKIE['cookie_password'];
-
-    $sql1 = "select * from login where username = '$cookie_username'";
-    $q1   = mysqli_query($koneksi,$sql1);
-    $r1   = mysqli_fetch_array($q1);
-    if($r1['password'] == $cookie_password){
-        $_SESSION['session_username'] = $cookie_username;
-        $_SESSION['session_password'] = $cookie_password;
-    }
-}
-
-if(isset($_SESSION['session_username'])){
+if (isset($_SESSION['username'])) {
     header("location:fph-admin.php");
-    exit();
 }
-
-if(isset($_POST['login'])){
+include("../koneksi.php");
+$name = "";
+$username = "";
+$password = "";
+$err = "";
+if (isset($_POST['login'])) {
     $username   = $_POST['username'];
     $password   = $_POST['password'];
-    $ingataku   = $_POST['ingataku'];
-
-    if($username == '' or $password == ''){
-        $err .= "<li>Silakan masukkan username dan juga password.</li>";
-    }else{
-        $sql1 = "select * from login where username = '$username'";
-        $q1   = mysqli_query($koneksi,$sql1);
-        $r1   = mysqli_fetch_array($q1);
-
-        if($r1['username'] == ''){
-            $err .= "<li>Username <b>$username</b> tidak tersedia.</li>";
-        }elseif($r1['password'] != md5($password)){
-            $err .= "<li>Password yang dimasukkan tidak sesuai.</li>";
-        }       
-        
-        if(empty($err)){
-            $_SESSION['session_username'] = $username; //server
-            $_SESSION['session_password'] = md5($password);
-
-            if($ingataku == 1){
-                $cookie_name = "cookie_username";
-                $cookie_value = $username;
-                $cookie_time = time() + (60 * 60 * 24 * 30);
-                setcookie($cookie_name,$cookie_value,$cookie_time,"/");
-
-                $cookie_name = "cookie_password";
-                $cookie_value = md5($password);
-                $cookie_time = time() + (60 * 60 * 24 * 30);
-                setcookie($cookie_name,$cookie_value,$cookie_time,"/");
-            }
-            header("location:fph-admin.php");
+    if ($username == '' or $password == '') {
+        $err .= "<li>Silakan masukkan username dan password</li>";
+    }
+    if (empty($err)) {
+        $sql1 = "select * from admin where username = '$username'";
+        $q1 = mysqli_query($koneksi, $sql1);
+        $r1 = mysqli_fetch_array($q1);
+        if ($r1['password'] != md5($password)) {
+            $err .= "<li>Akun tidak ditemukan</li>";
         }
+    }
+    if (empty($err)) {
+        $login_id = $r1['login_id'];
+        $sql1 = "select * from admin_akses where login_id = '$login_id'";
+        $q1 = mysqli_query($koneksi, $sql1);
+        while ($r1 = mysqli_fetch_array($q1)) {
+            $akses[] = $r1['akses_id'];  
+        }
+        if (empty($akses)) {
+            $err .= "<li>Kamu tidak punya akses ke halaman admin</li>";
+        }
+    }
+    if (empty($err)) {
+        $_SESSION['admin_username'] = $username;
+        $_SESSION['admin_akses'] = $akses;
+        header("location:fph-admin.php");
+        exit();
     }
 }
 ?>
@@ -76,7 +53,7 @@ if(isset($_POST['login'])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -89,7 +66,7 @@ if(isset($_POST['login'])){
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-dark">
 
     <div class="container">
 
@@ -106,7 +83,9 @@ if(isset($_POST['login'])){
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block">
+                                <img class="img px-3 px-sm-4 mt-3 mb-4 " style="width: 40rem;" src="img/undraw_sign_up_n6im.svg" alt="">   
+                            </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
@@ -122,21 +101,15 @@ if(isset($_POST['login'])){
                                             <input id="login-password" type="password" class="form-control form-control-user" name="password" placeholder="Enter Password">
                                         </div>
                                         <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input id="login-remember" type="checkbox" name="ingataku" value="1" <?php if($ingataku == '1') echo "checked"?>> Ingat Aku
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <input type="submit" name="login" class="btn btn-primary btn-user btn-block" value="Login"/>
+                                        
+                                        <input type="submit" name="login" class="btn btn-dark btn-user btn-block" value="Login"/>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small text-dark" href="forgot-password.html">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small text-dark" href="register.php">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>
