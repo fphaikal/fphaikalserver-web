@@ -26,7 +26,9 @@ if (!isset($_SESSION['admin_username'])) {
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1a2a4286bd.js" crossorigin="anonymous"></script>
 </head>
 
 <body id="page-top">
@@ -75,6 +77,23 @@ if (!isset($_SESSION['admin_username'])) {
                         <i class="fas fa-fw fa-wrench"></i>
                         <span>Edit Profile</span>
                     </a> 
+                </li>
+            <?php } ?>
+
+            <?php if (in_array("user", $_SESSION['admin_akses'])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="to-dolist.php">
+                        <i class="fas fa-fw fa-rectangle-list"></i>
+                        <span>To-Do List</span>
+                    </a>
+                </li>
+            <?php } ?>
+            <?php if (in_array("user", $_SESSION['admin_akses'])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="list-article.php">
+                        <i class="fa-solid fa-newspaper"></i>
+                        <span>Article</span>
+                    </a>
                 </li>
             <?php } ?>
             <hr class="sidebar-divider">

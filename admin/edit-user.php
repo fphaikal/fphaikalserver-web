@@ -11,6 +11,7 @@ if (!in_array("admin", $_SESSION['admin_akses'])) { ?>
     include("inc_footer.php");
     exit(); }  
 ?>
+
 <?php
 $login_id = "";
 $name = "";
@@ -231,7 +232,7 @@ if(isset($_POST['submit'])) {
                     <form id="loginform" method="POST" role="form" class="user">                        
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user"
-                                    id="name" name="name" value="<?php echo $name ?>" placeholder="Enter Your Name">
+                                id="name" name="name" value="<?php echo $name ?>" placeholder="Enter Your Name">
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user"
