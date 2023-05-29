@@ -83,12 +83,12 @@ if($op == 'delete') {
                         <td><?= $no++ ?></td>                        
                         <td><?= $data['judul'] ?></td>
                         <td><?= $data['author'] ?></td>
-                        <td><?= $data['tanggal'] ?></td>
+                        <td ><?= $data['tanggal'] ?></td>
                         
                         <td>
-                            <a target="_blank" href="../blog/artikel.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Go To Page</a>
-                            <a href="edit-article.php?id=<?php echo $data['id']; ?>"><button class="btn btn-warning">Edit</button> </a>
-                            <a href="list-article.php?op=delete&id=<?php echo $data['id'] ?>"><button  class="btn btn-danger">Delete</button> </a>                       
+                            <a target="_blank" href="../blog/artikel.php?id=<?php echo $data['id']; ?>" class="btn btn-success btn-sm mb-1">Go To Page</a>
+                            <a href="edit-article.php?id=<?php echo $data['id']; ?>"><button class="btn btn-warning btn-sm mb-1">Edit</button> </a>
+                            <a href="list-article.php?op=delete&id=<?php echo $data['id'] ?>"><button  class="btn btn-danger btn-sm">Delete</button> </a>                       
                         </td>
                     </tr>                    
                 </tbody>

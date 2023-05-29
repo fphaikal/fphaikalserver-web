@@ -1,0 +1,3 @@
+User-agent: *
+
+sitemap:https://fphaikalserver.000webhostapp.com/sitemap.xml

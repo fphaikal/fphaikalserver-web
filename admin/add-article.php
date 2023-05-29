@@ -8,14 +8,19 @@ $data    =mysqli_fetch_array($tampildata);
 
 $judul = "";
 $isi = "";
+$gambar = "";
+$error = "";
+$sukses = "";
 
 if(isset($_POST['submit'])) {
-    $judul = $_POST['judul'];
-    $isi = $_POST['isi'];
-    $author = $data['name'];
-    $id_user = $data['username'];
+    
 
-    if($judul && $isi && $id_user) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $judul = $_POST['judul'];
+        $isi = $_POST['isi'];
+        $author = $data['name'];
+        $id_user = $data['username'];
+
         $sql1 = "insert into artikel(judul, isi, author, id_user) values ('$judul','$isi', '$author', '$id_user')";
         $q1 = mysqli_query($koneksi, $sql1);
         if($q1) {
@@ -27,7 +32,6 @@ if(isset($_POST['submit'])) {
     } else {
         $error = "Silahkan masukkan semua data";
 }
-
 ?>
 
 <div class="row">
@@ -45,15 +49,34 @@ if(isset($_POST['submit'])) {
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="card p-3 shadow">
+                <?php 
+                    if($error) {
+                ?> 
+                    <div class="alert alert-warning" role="alert">
+                        <?php echo $error ?>
+                    </div>        
+                <?php 
+                }
+                ?>
+
+                <?php 
+                    if($sukses) {
+                ?>        
+                    <div class="alert alert-success" role="alert">
+                        <?php echo $sukses ?>
+                    </div>  
+                <?php 
+                    }
+                ?>    
             <form id="loginform" method="POST" role="form" class="user">                        
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Judul</label>
-                    <input id="judul" name="judul" value="<?php echo $judul ?>" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Masukkan Judul">
+                    <input id="judul" name="judul" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Masukkan Judul">
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlTextarea1" class="form-label">Masukkan Isi Artikel</label>
-                    <textarea rows="5" cols="50" wrap="soft" id="isi" name="isi" value="<?php echo $isi ?>" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
+                    <textarea rows="5" cols="50" wrap="soft" name="isi" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>                
                 <div class="form-group mt-3">
                     <input type="submit" name="submit" class="btn btn-success" value="Submit"/>    
                 </div>
